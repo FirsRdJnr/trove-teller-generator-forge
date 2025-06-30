@@ -1,4 +1,3 @@
-
 import { LootItem } from '@/types/loot';
 
 export const lootData: LootItem[] = [
@@ -181,5 +180,135 @@ export const lootData: LootItem[] = [
     requirements: "Extreme caution advised",
     author: "Core Rulebook",
     rarityNumber: 5
+  },
+  
+  // New Treasure category items
+  {
+    item: "Ancient Gold Coins",
+    description: "A collection of ancient gold coins from a long-lost civilization.",
+    estValue: "500 gp",
+    rarity: "common",
+    weight: "1 lb",
+    category: "Treasure",
+    properties: "Pure gold, collector's value",
+    requirements: "None",
+    author: "Core Rulebook",
+    rarityNumber: 1
+  },
+  {
+    item: "Jeweled Goblet",
+    description: "An ornate goblet encrusted with precious gems.",
+    estValue: "2,500 gp",
+    rarity: "uncommon",
+    weight: "2 lbs",
+    category: "Treasure",
+    properties: "Decorated with rubies and emeralds",
+    requirements: "None",
+    author: "Core Rulebook",
+    rarityNumber: 2
+  },
+  
+  // New Adventuring Gear category items
+  {
+    item: "Rope of Climbing",
+    description: "A magical rope that moves and knots itself on command.",
+    estValue: "2,000 gp",
+    rarity: "uncommon",
+    weight: "3 lbs",
+    category: "Adventuring Gear",
+    properties: "60 feet of rope, moves on command",
+    requirements: "None",
+    author: "Core Rulebook",
+    rarityNumber: 2
+  },
+  {
+    item: "Lantern of Revealing",
+    description: "A lantern that reveals invisible creatures and objects.",
+    estValue: "5,000 gp",
+    rarity: "uncommon",
+    weight: "2 lbs",
+    category: "Adventuring Gear",
+    properties: "Reveals invisible creatures in 30-foot radius",
+    requirements: "None",
+    author: "Core Rulebook",
+    rarityNumber: 2
+  },
+  
+  // New Book category items
+  {
+    item: "Tome of Clear Thought",
+    description: "A magical book that permanently increases the reader's intelligence.",
+    estValue: "27,500 gp",
+    rarity: "very rare",
+    weight: "5 lbs",
+    category: "Book",
+    properties: "Increases Intelligence by 2, once per century",
+    requirements: "Requires attunement",
+    author: "Core Rulebook",
+    rarityNumber: 4
+  },
+  {
+    item: "Spell Scroll",
+    description: "A scroll containing a magical spell that can be cast once.",
+    estValue: "100 gp",
+    rarity: "common",
+    weight: "0 lbs",
+    category: "Book",
+    properties: "Contains one spell, consumed on use",
+    requirements: "Ability to cast spells",
+    author: "Core Rulebook",
+    rarityNumber: 1
+  },
+  
+  // New Food category items
+  {
+    item: "Elven Bread",
+    description: "A single bite of this nutritious bread sustains a person for a full day.",
+    estValue: "50 gp",
+    rarity: "common",
+    weight: "0.1 lbs",
+    category: "Food",
+    properties: "Provides full day's nutrition in one bite",
+    requirements: "None",
+    author: "Core Rulebook",
+    rarityNumber: 1
+  },
+  {
+    item: "Honey of Restoration",
+    description: "Golden honey that removes poison and disease when consumed.",
+    estValue: "300 gp",
+    rarity: "uncommon",
+    weight: "0.5 lbs",
+    category: "Food",
+    properties: "Removes one poison or disease",
+    requirements: "None",
+    author: "Core Rulebook",
+    rarityNumber: 2
+  },
+  
+  // New Mundane category items
+  {
+    item: "Iron Spikes",
+    description: "Simple iron spikes used for securing ropes and climbing.",
+    estValue: "1 gp",
+    rarity: "common",
+    weight: "5 lbs",
+    category: "Mundane",
+    properties: "Set of 10 iron spikes",
+    requirements: "None",
+    author: "Core Rulebook",
+    rarityNumber: 1
+  },
+  {
+    item: "Merchant's Scale",
+    description: "A precise balance scale for weighing goods and coins.",
+    estValue: "5 gp",
+    rarity: "common",
+    weight: "3 lbs",
+    category: "Mundane",
+    properties: "Accurate to 1/10th of a pound",
+    requirements: "None",
+    author: "Core Rulebook",
+    rarityNumber: 1
   }
 ];

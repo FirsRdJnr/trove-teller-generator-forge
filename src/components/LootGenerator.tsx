@@ -8,7 +8,7 @@ import { Label } from '@/components/ui/label';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Dice6, Sparkles, Sword, Shield, Wand2 } from 'lucide-react';
 import { LootItem } from '@/types/loot';
-import { LootCard } from './LootCard';
+import { LootList } from './LootList';
 import { lootData } from '@/data/lootData';
 
 const LootGenerator = () => {
@@ -114,36 +114,36 @@ const LootGenerator = () => {
 
   const getRarityColor = (rarity: string): string => {
     const colors = {
-      'common': 'text-gray-600',
-      'uncommon': 'text-green-600',
-      'rare': 'text-blue-600',
-      'very rare': 'text-purple-600',
-      'legendary': 'text-orange-600'
+      'common': 'text-sage-green',
+      'uncommon': 'text-moss-green',
+      'rare': 'text-gold-warm',
+      'very rare': 'text-gold-bright',
+      'legendary': 'text-amber-glow'
     };
-    return colors[rarity.toLowerCase() as keyof typeof colors] || 'text-gray-600';
+    return colors[rarity.toLowerCase() as keyof typeof colors] || 'text-sage-green';
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 p-4">
+    <div className="min-h-screen bg-gradient-to-br from-forest-dark via-forest-medium to-forest-light p-4">
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-8">
-          <h1 className="text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-gold-400 to-yellow-300 mb-4">
-            D&D Loot Generator
+          <h1 className="text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-gold-warm to-amber-glow mb-4">
+            Ranger's Loot Generator
           </h1>
-          <p className="text-xl text-purple-200">Generate magical treasures for your adventures</p>
+          <p className="text-xl text-sage-green">Discover treasures hidden in the depths of the forest</p>
         </div>
 
         <div className="grid lg:grid-cols-3 gap-6 mb-8">
-          <Card className="bg-purple-800/50 border-purple-600 backdrop-blur-sm">
+          <Card className="bg-forest-medium/80 border-moss-green backdrop-blur-sm">
             <CardHeader>
-              <CardTitle className="text-gold-400 flex items-center gap-2">
+              <CardTitle className="text-gold-warm flex items-center gap-2">
                 <Dice6 className="w-5 h-5" />
                 Party Configuration
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
               <div>
-                <Label className="text-purple-200">Party Level: {partyLevel}</Label>
+                <Label className="text-sage-green">Party Level: {partyLevel}</Label>
                 <Slider
                   value={[partyLevel]}
                   onValueChange={(value) => setPartyLevel(value[0])}
@@ -154,7 +154,7 @@ const LootGenerator = () => {
                 />
               </div>
               <div>
-                <Label className="text-purple-200">Party Size: {partySize}</Label>
+                <Label className="text-sage-green">Party Size: {partySize}</Label>
                 <Slider
                   value={[partySize]}
                   onValueChange={(value) => setPartySize(value[0])}
@@ -167,9 +167,9 @@ const LootGenerator = () => {
             </CardContent>
           </Card>
 
-          <Card className="bg-purple-800/50 border-purple-600 backdrop-blur-sm">
+          <Card className="bg-forest-medium/80 border-moss-green backdrop-blur-sm">
             <CardHeader>
-              <CardTitle className="text-gold-400 flex items-center gap-2">
+              <CardTitle className="text-gold-warm flex items-center gap-2">
                 <Sword className="w-5 h-5" />
                 Loot Categories
               </CardTitle>
@@ -181,7 +181,7 @@ const LootGenerator = () => {
                   checked={selectedCategories.includes('all')}
                   onCheckedChange={(checked) => handleCategoryChange('all', checked as boolean)}
                 />
-                <Label htmlFor="all-categories" className="text-purple-200 font-medium">
+                <Label htmlFor="all-categories" className="text-sage-green font-medium">
                   All Categories
                 </Label>
               </div>
@@ -194,7 +194,7 @@ const LootGenerator = () => {
                       onCheckedChange={(checked) => handleCategoryChange(category, checked as boolean)}
                       disabled={selectedCategories.includes('all')}
                     />
-                    <Label htmlFor={category} className="text-purple-200 text-sm">
+                    <Label htmlFor={category} className="text-sage-green text-sm">
                       {category}
                     </Label>
                   </div>
@@ -203,9 +203,9 @@ const LootGenerator = () => {
             </CardContent>
           </Card>
 
-          <Card className="bg-purple-800/50 border-purple-600 backdrop-blur-sm">
+          <Card className="bg-forest-medium/80 border-moss-green backdrop-blur-sm">
             <CardHeader>
-              <CardTitle className="text-gold-400 flex items-center gap-2">
+              <CardTitle className="text-gold-warm flex items-center gap-2">
                 <Sparkles className="w-5 h-5" />
                 Generate Loot
               </CardTitle>
@@ -214,12 +214,12 @@ const LootGenerator = () => {
               <Button 
                 onClick={generateLoot}
                 disabled={isGenerating}
-                className="w-full bg-gradient-to-r from-gold-500 to-yellow-500 hover:from-gold-600 hover:to-yellow-600 text-purple-900 font-bold"
+                className="w-full bg-gradient-to-r from-gold-warm to-gold-bright hover:from-gold-dark hover:to-gold-warm text-forest-dark font-bold"
               >
                 {isGenerating ? (
                   <div className="flex items-center gap-2">
                     <Dice6 className="w-4 h-4 animate-spin" />
-                    Rolling...
+                    Searching...
                   </div>
                 ) : (
                   <div className="flex items-center gap-2">
@@ -232,9 +232,9 @@ const LootGenerator = () => {
           </Card>
         </div>
 
-        <Card className="bg-purple-800/50 border-purple-600 backdrop-blur-sm mb-8">
+        <Card className="bg-forest-medium/80 border-moss-green backdrop-blur-sm mb-8">
           <CardHeader>
-            <CardTitle className="text-gold-400 flex items-center gap-2">
+            <CardTitle className="text-gold-warm flex items-center gap-2">
               <Wand2 className="w-5 h-5" />
               Rarity Probability Adjustments
             </CardTitle>
@@ -261,16 +261,7 @@ const LootGenerator = () => {
         </Card>
 
         {generatedLoot.length > 0 && (
-          <div>
-            <h2 className="text-3xl font-bold text-gold-400 mb-6 text-center">
-              Generated Loot ({generatedLoot.length} items)
-            </h2>
-            <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-6">
-              {generatedLoot.map((item, index) => (
-                <LootCard key={`${item.item}-${index}`} item={item} />
-              ))}
-            </div>
-          </div>
+          <LootList loot={generatedLoot} />
         )}
       </div>
     </div>

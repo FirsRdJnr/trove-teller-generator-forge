@@ -48,10 +48,16 @@ All colors MUST be HSL.
     --sidebar-border: 220 13% 91%;
     --sidebar-ring: 217.2 91.2% 59.8%;
 
-    /* D&D Fantasy Theme Colors */
-    --gold-400: 45 100% 60%;
-    --gold-500: 45 100% 50%;
-    --gold-600: 45 100% 40%;
+    /* Elven Forest Theme Colors */
+    --forest-dark: 120 25% 8%;
+    --forest-medium: 125 20% 15%;
+    --forest-light: 130 15% 25%;
+    --moss-green: 95 35% 45%;
+    --sage-green: 110 25% 65%;
+    --gold-warm: 40 85% 65%;
+    --gold-bright: 45 100% 50%;
+    --gold-dark: 35 80% 35%;
+    --amber-glow: 42 100% 70%;
   }
 
   .dark {
@@ -104,59 +110,107 @@ All colors MUST be HSL.
 }
 
 @layer utilities {
-  .text-gold-400 {
-    color: hsl(var(--gold-400));
+  .bg-forest-dark {
+    background-color: hsl(var(--forest-dark));
   }
   
-  .text-gold-500 {
-    color: hsl(var(--gold-500));
+  .bg-forest-medium {
+    background-color: hsl(var(--forest-medium));
   }
   
-  .text-gold-600 {
-    color: hsl(var(--gold-600));
+  .bg-forest-light {
+    background-color: hsl(var(--forest-light));
   }
   
-  .bg-gold-400 {
-    background-color: hsl(var(--gold-400));
+  .bg-moss-green {
+    background-color: hsl(var(--moss-green));
   }
   
-  .bg-gold-500 {
-    background-color: hsl(var(--gold-500));
+  .bg-sage-green {
+    background-color: hsl(var(--sage-green));
   }
   
-  .bg-gold-600 {
-    background-color: hsl(var(--gold-600));
+  .text-forest-light {
+    color: hsl(var(--forest-light));
   }
   
-  .from-gold-400 {
-    --tw-gradient-from: hsl(var(--gold-400));
+  .text-moss-green {
+    color: hsl(var(--moss-green));
   }
   
-  .from-gold-500 {
-    --tw-gradient-from: hsl(var(--gold-500));
+  .text-sage-green {
+    color: hsl(var(--sage-green));
   }
   
-  .to-gold-300 {
-    --tw-gradient-to: hsl(45 100% 70%);
+  .text-gold-warm {
+    color: hsl(var(--gold-warm));
   }
   
-  .to-yellow-300 {
-    --tw-gradient-to: hsl(45 100% 70%);
+  .text-gold-bright {
+    color: hsl(var(--gold-bright));
   }
   
-  .to-yellow-500 {
-    --tw-gradient-to: hsl(45 100% 50%);
+  .text-gold-dark {
+    color: hsl(var(--gold-dark));
   }
   
-  .to-yellow-600 {
-    --tw-gradient-to: hsl(45 100% 40%);
+  .text-amber-glow {
+    color: hsl(var(--amber-glow));
   }
   
-  .hover\:from-gold-600:hover {
-    --tw-gradient-from: hsl(var(--gold-600));
+  .bg-gold-warm {
+    background-color: hsl(var(--gold-warm));
   }
   
-  .hover\:to-yellow-600:hover {
-    --tw-gradient-to: hsl(45 100% 40%);
+  .bg-gold-bright {
+    background-color: hsl(var(--gold-bright));
+  }
+  
+  .bg-gold-dark {
+    background-color: hsl(var(--gold-dark));
+  }
+  
+  .border-moss-green {
+    border-color: hsl(var(--moss-green));
+  }
+  
+  .border-sage-green {
+    border-color: hsl(var(--sage-green));
+  }
+  
+  .border-gold-warm {
+    border-color: hsl(var(--gold-warm));
+  }
+  
+  .from-forest-dark {
+    --tw-gradient-from: hsl(var(--forest-dark));
+  }
+  
+  .from-forest-medium {
+    --tw-gradient-from: hsl(var(--forest-medium));
+  }
+  
+  .to-forest-medium {
+    --tw-gradient-to: hsl(var(--forest-medium));
+  }
+  
+  .to-forest-light {
+    --tw-gradient-to: hsl(var(--forest-light));
+  }
+  
+  .from-gold-warm {
+    --tw-gradient-from: hsl(var(--gold-warm));
+  }
+  
+  .to-gold-bright {
+    --tw-gradient-to: hsl(var(--gold-bright));
+  }
+  
+  .hover\:from-gold-dark:hover {
+    --tw-gradient-from: hsl(var(--gold-dark));
+  }
+  
+  .hover\:to-gold-warm:hover {
+    --tw-gradient-to: hsl(var(--gold-warm));
   }
 }
