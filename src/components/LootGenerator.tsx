@@ -3,9 +3,9 @@ import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Slider } from '@/components/ui/slider';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { Checkbox } from '@/components/ui/checkbox';
 import { Dice6, Sparkles, Sword, Shield, Wand2 } from 'lucide-react';
 import { LootItem } from '@/types/loot';
 import { LootCard } from './LootCard';
@@ -14,7 +14,7 @@ import { lootData } from '@/data/lootData';
 const LootGenerator = () => {
   const [partyLevel, setPartyLevel] = useState(5);
   const [partySize, setPartySize] = useState(4);
-  const [selectedCategory, setSelectedCategory] = useState('all');
+  const [selectedCategories, setSelectedCategories] = useState<string[]>(['all']);
   const [rarityMultipliers, setRarityMultipliers] = useState({
     common: 1.0,
     uncommon: 1.0,
@@ -28,15 +28,30 @@ const LootGenerator = () => {
   const categories = Array.from(new Set(lootData.map(item => item.category)));
   const rarities = ['common', 'uncommon', 'rare', 'very rare', 'legendary'];
 
+  const handleCategoryChange = (category: string, checked: boolean) => {
+    if (category === 'all') {
+      setSelectedCategories(checked ? ['all'] : []);
+    } else {
+      setSelectedCategories(prev => {
+        const newCategories = checked 
+          ? [...prev.filter(c => c !== 'all'), category]
+          : prev.filter(c => c !== category);
+        
+        // If no specific categories are selected, default to 'all'
+        return newCategories.length === 0 ? ['all'] : newCategories;
+      });
+    }
+  };
+
   const generateLoot = () => {
     setIsGenerating(true);
     
     setTimeout(() => {
       const filteredItems = lootData.filter(item => {
-        if (selectedCategory !== 'all' && item.category !== selectedCategory) {
-          return false;
+        if (selectedCategories.includes('all')) {
+          return true;
         }
-        return true;
+        return selectedCategories.includes(item.category);
       });
 
       const lootCount = Math.max(1, Math.floor(partySize / 2) + Math.floor(partyLevel / 3));
@@ -48,15 +63,15 @@ const LootGenerator = () => {
           const multiplier = rarityMultipliers[item.rarity.toLowerCase() as keyof typeof rarityMultipliers] || 1;
           return {
             ...item,
-            weight: baseWeight * multiplier
+            calculatedWeight: baseWeight * multiplier
           };
         });
 
-        const totalWeight = weightedItems.reduce((sum, item) => sum + item.weight, 0);
+        const totalWeight = weightedItems.reduce((sum, item) => sum + item.calculatedWeight, 0);
         let random = Math.random() * totalWeight;
 
         for (const item of weightedItems) {
-          random -= item.weight;
+          random -= item.calculatedWeight;
           if (random <= 0) {
             newLoot.push(item);
             break;
@@ -156,25 +171,34 @@ const LootGenerator = () => {
             <CardHeader>
               <CardTitle className="text-gold-400 flex items-center gap-2">
                 <Sword className="w-5 h-5" />
-                Loot Filters
+                Loot Categories
               </CardTitle>
             </CardHeader>
-            <CardContent>
-              <div>
-                <Label className="text-purple-200">Item Category</Label>
-                <Select value={selectedCategory} onValueChange={setSelectedCategory}>
-                  <SelectTrigger className="mt-2 bg-purple-700/50 border-purple-500 text-white">
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent className="bg-purple-800 border-purple-600">
-                    <SelectItem value="all">All Categories</SelectItem>
-                    {categories.map(category => (
-                      <SelectItem key={category} value={category}>
-                        {category}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
+            <CardContent className="space-y-3">
+              <div className="flex items-center space-x-2">
+                <Checkbox
+                  id="all-categories"
+                  checked={selectedCategories.includes('all')}
+                  onCheckedChange={(checked) => handleCategoryChange('all', checked as boolean)}
+                />
+                <Label htmlFor="all-categories" className="text-purple-200 font-medium">
+                  All Categories
+                </Label>
+              </div>
+              <div className="grid grid-cols-1 gap-2 max-h-40 overflow-y-auto">
+                {categories.map(category => (
+                  <div key={category} className="flex items-center space-x-2">
+                    <Checkbox
+                      id={category}
+                      checked={selectedCategories.includes(category)}
+                      onCheckedChange={(checked) => handleCategoryChange(category, checked as boolean)}
+                      disabled={selectedCategories.includes('all')}
+                    />
+                    <Label htmlFor={category} className="text-purple-200 text-sm">
+                      {category}
+                    </Label>
+                  </div>
+                ))}
               </div>
             </CardContent>
           </Card>
