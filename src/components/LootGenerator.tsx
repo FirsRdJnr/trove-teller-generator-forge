@@ -1,14 +1,11 @@
 
-import React, { useState, useEffect } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Slider } from '@/components/ui/slider';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Checkbox } from '@/components/ui/checkbox';
-import { Dice6, Sparkles, Sword, Shield, Wand2 } from 'lucide-react';
+import React, { useState } from 'react';
 import { LootItem } from '@/types/loot';
 import { LootList } from './LootList';
+import { PartyConfiguration } from './PartyConfiguration';
+import { CategoryFilter } from './CategoryFilter';
+import { GenerateButton } from './GenerateButton';
+import { RarityControls } from './RarityControls';
 import { lootData } from '@/data/lootData';
 
 const LootGenerator = () => {
@@ -26,7 +23,6 @@ const LootGenerator = () => {
   const [isGenerating, setIsGenerating] = useState(false);
 
   const categories = Array.from(new Set(lootData.map(item => item.category)));
-  const rarities = ['common', 'uncommon', 'rare', 'very rare', 'legendary'];
 
   const handleCategoryChange = (category: string, checked: boolean) => {
     if (category === 'all') {
@@ -37,7 +33,6 @@ const LootGenerator = () => {
           ? [...prev.filter(c => c !== 'all'), category]
           : prev.filter(c => c !== category);
         
-        // If no specific categories are selected, default to 'all'
         return newCategories.length === 0 ? ['all'] : newCategories;
       });
     }
@@ -112,157 +107,46 @@ const LootGenerator = () => {
     }));
   };
 
-  const getRarityColor = (rarity: string): string => {
-    const colors = {
-      'common': 'text-sage-green',
-      'uncommon': 'text-moss-green',
-      'rare': 'text-gold-warm',
-      'very rare': 'text-gold-bright',
-      'legendary': 'text-amber-glow'
-    };
-    return colors[rarity.toLowerCase() as keyof typeof colors] || 'text-sage-green';
-  };
-
   return (
-    <div className="min-h-screen bg-gradient-to-br from-forest-dark via-forest-medium to-forest-light p-4">
-      <div className="max-w-7xl mx-auto">
-        <div className="text-center mb-8">
-          <h1 className="text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-gold-warm to-amber-glow mb-4">
-            Ranger's Loot Generator
-          </h1>
-          <p className="text-xl text-sage-green">Discover treasures hidden in the depths of the forest</p>
+    <div className="min-h-screen bg-gradient-to-br from-forest-dark via-forest-medium to-forest-light">
+      <div className="min-h-screen bg-gradient-to-br from-forest-dark via-forest-medium to-forest-light p-4">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-8 bg-forest-dark/80 backdrop-blur-sm rounded-lg p-6 border border-moss-green">
+            <h1 className="text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-gold-warm to-amber-glow mb-4">
+              Ranger's Loot Generator
+            </h1>
+            <p className="text-xl text-sage-green">Discover treasures hidden in the depths of the forest</p>
+          </div>
+
+          <div className="grid lg:grid-cols-3 gap-6 mb-8">
+            <PartyConfiguration 
+              partyLevel={partyLevel}
+              partySize={partySize}
+              onPartyLevelChange={setPartyLevel}
+              onPartySizeChange={setPartySize}
+            />
+
+            <CategoryFilter 
+              categories={categories}
+              selectedCategories={selectedCategories}
+              onCategoryChange={handleCategoryChange}
+            />
+
+            <GenerateButton 
+              isGenerating={isGenerating}
+              onGenerate={generateLoot}
+            />
+          </div>
+
+          <RarityControls 
+            rarityMultipliers={rarityMultipliers}
+            onRarityMultiplierChange={updateRarityMultiplier}
+          />
+
+          {generatedLoot.length > 0 && (
+            <LootList loot={generatedLoot} />
+          )}
         </div>
-
-        <div className="grid lg:grid-cols-3 gap-6 mb-8">
-          <Card className="bg-forest-medium/80 border-moss-green backdrop-blur-sm">
-            <CardHeader>
-              <CardTitle className="text-gold-warm flex items-center gap-2">
-                <Dice6 className="w-5 h-5" />
-                Party Configuration
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div>
-                <Label className="text-sage-green">Party Level: {partyLevel}</Label>
-                <Slider
-                  value={[partyLevel]}
-                  onValueChange={(value) => setPartyLevel(value[0])}
-                  max={20}
-                  min={1}
-                  step={1}
-                  className="mt-2"
-                />
-              </div>
-              <div>
-                <Label className="text-sage-green">Party Size: {partySize}</Label>
-                <Slider
-                  value={[partySize]}
-                  onValueChange={(value) => setPartySize(value[0])}
-                  max={8}
-                  min={1}
-                  step={1}
-                  className="mt-2"
-                />
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card className="bg-forest-medium/80 border-moss-green backdrop-blur-sm">
-            <CardHeader>
-              <CardTitle className="text-gold-warm flex items-center gap-2">
-                <Sword className="w-5 h-5" />
-                Loot Categories
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-3">
-              <div className="flex items-center space-x-2">
-                <Checkbox
-                  id="all-categories"
-                  checked={selectedCategories.includes('all')}
-                  onCheckedChange={(checked) => handleCategoryChange('all', checked as boolean)}
-                />
-                <Label htmlFor="all-categories" className="text-sage-green font-medium">
-                  All Categories
-                </Label>
-              </div>
-              <div className="grid grid-cols-1 gap-2 max-h-40 overflow-y-auto">
-                {categories.map(category => (
-                  <div key={category} className="flex items-center space-x-2">
-                    <Checkbox
-                      id={category}
-                      checked={selectedCategories.includes(category)}
-                      onCheckedChange={(checked) => handleCategoryChange(category, checked as boolean)}
-                      disabled={selectedCategories.includes('all')}
-                    />
-                    <Label htmlFor={category} className="text-sage-green text-sm">
-                      {category}
-                    </Label>
-                  </div>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card className="bg-forest-medium/80 border-moss-green backdrop-blur-sm">
-            <CardHeader>
-              <CardTitle className="text-gold-warm flex items-center gap-2">
-                <Sparkles className="w-5 h-5" />
-                Generate Loot
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <Button 
-                onClick={generateLoot}
-                disabled={isGenerating}
-                className="w-full bg-gradient-to-r from-gold-warm to-gold-bright hover:from-gold-dark hover:to-gold-warm text-forest-dark font-bold"
-              >
-                {isGenerating ? (
-                  <div className="flex items-center gap-2">
-                    <Dice6 className="w-4 h-4 animate-spin" />
-                    Searching...
-                  </div>
-                ) : (
-                  <div className="flex items-center gap-2">
-                    <Dice6 className="w-4 h-4" />
-                    Generate Loot
-                  </div>
-                )}
-              </Button>
-            </CardContent>
-          </Card>
-        </div>
-
-        <Card className="bg-forest-medium/80 border-moss-green backdrop-blur-sm mb-8">
-          <CardHeader>
-            <CardTitle className="text-gold-warm flex items-center gap-2">
-              <Wand2 className="w-5 h-5" />
-              Rarity Probability Adjustments
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="grid md:grid-cols-5 gap-4">
-              {rarities.map(rarity => (
-                <div key={rarity} className="space-y-2">
-                  <Label className={`text-sm font-medium capitalize ${getRarityColor(rarity)}`}>
-                    {rarity} ({(rarityMultipliers[rarity as keyof typeof rarityMultipliers] * 100).toFixed(0)}%)
-                  </Label>
-                  <Slider
-                    value={[rarityMultipliers[rarity as keyof typeof rarityMultipliers]]}
-                    onValueChange={(value) => updateRarityMultiplier(rarity, value[0])}
-                    max={3}
-                    min={0}
-                    step={0.1}
-                    className="w-full"
-                  />
-                </div>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
-
-        {generatedLoot.length > 0 && (
-          <LootList loot={generatedLoot} />
-        )}
       </div>
     </div>
   );

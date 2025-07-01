@@ -1,11 +1,10 @@
 
 import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import { ChevronDown, ChevronRight } from 'lucide-react';
 import { LootItem } from '@/types/loot';
-import { LootCard } from './LootCard';
+import { LootCarousel } from './LootCarousel';
 
 interface LootListProps {
   loot: LootItem[];
@@ -57,11 +56,7 @@ export const LootList: React.FC<LootListProps> = ({ loot }) => {
         
         <CollapsibleContent>
           <CardContent className="pt-0">
-            <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-4">
-              {loot.map((item, index) => (
-                <LootCard key={`${item.item}-${index}`} item={item} />
-              ))}
-            </div>
+            <LootCarousel loot={loot} />
           </CardContent>
         </CollapsibleContent>
       </Collapsible>
