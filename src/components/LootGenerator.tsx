@@ -19,9 +19,10 @@ const LootGenerator = () => {
     'very rare': 1.0,
     legendary: 1.0
   });
-  const [generatedLoot, setGeneratedLoot] = useState<LootItem[]>([]);
+  const [lootHistory, setLootHistory] = useState<LootItem[][]>([]);
   const [isGenerating, setIsGenerating] = useState(false);
 
+  // Generate categories dynamically from lootData
   const categories = Array.from(new Set(lootData.map(item => item.category)));
 
   const handleCategoryChange = (category: string, checked: boolean) => {
@@ -74,7 +75,8 @@ const LootGenerator = () => {
         }
       }
 
-      setGeneratedLoot(newLoot);
+      // Add new loot to the beginning of history
+      setLootHistory(prev => [newLoot, ...prev]);
       setIsGenerating(false);
     }, 1500);
   };
@@ -143,8 +145,16 @@ const LootGenerator = () => {
             onRarityMultiplierChange={updateRarityMultiplier}
           />
 
-          {generatedLoot.length > 0 && (
-            <LootList loot={generatedLoot} />
+          {lootHistory.length > 0 && (
+            <div className="space-y-4">
+              {lootHistory.map((loot, index) => (
+                <LootList 
+                  key={index} 
+                  loot={loot} 
+                  sessionNumber={lootHistory.length - index}
+                />
+              ))}
+            </div>
           )}
         </div>
       </div>

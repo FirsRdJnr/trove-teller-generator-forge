@@ -8,10 +8,11 @@ import { LootCarousel } from './LootCarousel';
 
 interface LootListProps {
   loot: LootItem[];
+  sessionNumber?: number;
 }
 
-export const LootList: React.FC<LootListProps> = ({ loot }) => {
-  const [isOpen, setIsOpen] = useState(false);
+export const LootList: React.FC<LootListProps> = ({ loot, sessionNumber }) => {
+  const [isOpen, setIsOpen] = useState(sessionNumber === 1); // Auto-open the most recent session
 
   const getRarityColor = (rarity: string): string => {
     const colors = {
@@ -29,6 +30,8 @@ export const LootList: React.FC<LootListProps> = ({ loot }) => {
     return sum + (parseInt(value) || 0);
   }, 0);
 
+  const sessionTitle = sessionNumber ? `Session ${sessionNumber} Loot (${loot.length} items)` : `Loot Haul (${loot.length} items)`;
+
   return (
     <Card className="bg-gradient-to-br from-forest-medium to-forest-light border-moss-green backdrop-blur-sm">
       <Collapsible open={isOpen} onOpenChange={setIsOpen}>
@@ -37,7 +40,7 @@ export const LootList: React.FC<LootListProps> = ({ loot }) => {
             <div className="flex items-center justify-between">
               <CardTitle className="text-gold-warm flex items-center gap-2">
                 {isOpen ? <ChevronDown className="w-5 h-5" /> : <ChevronRight className="w-5 h-5" />}
-                Loot Haul ({loot.length} items)
+                {sessionTitle}
               </CardTitle>
               <div className="text-amber-glow text-sm">
                 Est. {totalValue.toLocaleString()} gp
