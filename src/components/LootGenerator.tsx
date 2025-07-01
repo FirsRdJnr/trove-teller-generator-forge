@@ -1,7 +1,7 @@
 
 import React, { useState } from 'react';
 import { LootItem } from '@/types/loot';
-import { LootList } from './LootList';
+import { LootListClickable } from './LootListClickable';
 import { PartyConfiguration } from './PartyConfiguration';
 import { CategoryFilter } from './CategoryFilter';
 import { GenerateButton } from './GenerateButton';
@@ -148,7 +148,7 @@ const LootGenerator = () => {
           {lootHistory.length > 0 && (
             <div className="space-y-4">
               {lootHistory.map((loot, index) => (
-                <LootList 
+                <LootListClickable 
                   key={index} 
                   loot={loot} 
                   sessionNumber={lootHistory.length - index}
